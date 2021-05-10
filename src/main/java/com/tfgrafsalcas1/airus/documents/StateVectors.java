@@ -1,20 +1,24 @@
 package com.tfgrafsalcas1.airus.documents;
 
 import java.util.Collection;
+import java.util.Date;
 
-import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
+@Document(collection = "stateVectors")
 public class StateVectors {
-    
-    private Integer time;
+
+    @Id
+    private String id;
+    private Date time;
     private Collection<StateVector> stateVector;
 
-    public Integer getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

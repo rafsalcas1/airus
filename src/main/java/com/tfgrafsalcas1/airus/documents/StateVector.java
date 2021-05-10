@@ -3,11 +3,14 @@ package com.tfgrafsalcas1.airus.documents;
 import java.util.HashSet;
 import java.util.Set;
 
-import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
+@Document(collection = "stateVector")
 public class StateVector {
-    
+
+    @Id
+    private String id;
     private String icao24;
     private String callsign;
     private String originCountry;

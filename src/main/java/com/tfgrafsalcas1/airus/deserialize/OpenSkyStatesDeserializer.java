@@ -11,10 +11,7 @@ import com.tfgrafsalcas1.airus.documents.StateVectors;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-
-/**
- * @author Markus Fuchs, fuchs@opensky-network.org
- */
+import java.util.Date;
 
 public class OpenSkyStatesDeserializer extends StdDeserializer<StateVectors> {
 	
@@ -67,14 +64,10 @@ public class OpenSkyStatesDeserializer extends StdDeserializer<StateVectors> {
 					StateVector.PositionSource.values()[psi] : StateVector.PositionSource.UNKNOWN;
 
 			sv.setPositionSource(ps);
-
-			// there are additional fields (upward compatibility), consume until end of this state vector array
 			next = jp.nextToken();
 			while (next != null && next != JsonToken.END_ARRAY) {
-				// ignore
 				next = jp.nextToken();
 			}
-			// consume "END_ARRAY" or next "START_ARRAY"
 			jp.nextToken();
 
 			result.add(sv);
@@ -94,16 +87,15 @@ public class OpenSkyStatesDeserializer extends StdDeserializer<StateVectors> {
 				if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {
 					if ("time".equalsIgnoreCase(jp.getCurrentName())) {
 						int t = jp.nextIntValue(0);
-						res.setTime(t);
+						Date time = new Date((long)(t)*1000);
+						res.setTime(time);
 					} else if ("states".equalsIgnoreCase(jp.getCurrentName())) {
 						jp.nextToken();
-						System.out.println(jp.getCurrentName());
 						res.setStateVector(deserializeStates(jp));
 					} else {
-						// ignore other fields, but consume value
 						jp.nextToken();
 					}
-				} // ignore others
+				}
 			}
 			return res;
 		} catch (JsonParseException jpe) {

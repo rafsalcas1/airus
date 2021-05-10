@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title>Vuelos</title>
+</head>
+<body>
+<h1 align="center" >Vuelos List</h1>
+<table>
+    <thead>
+        <tr>
+            <th> Time </th>
+        </tr>
+    </thead>
+    <tbody>
+        <div th:insert="fragments/base.html :: menu"></div>
+	<tr th:if="${vuelos.empty}">
+            <td colspan="2"> No hay vuelos </td>
+        </tr>
+        <tr th:each="vuelo : ${vuelos}">
+            <td><span th:text="${vuelo.icao24}"> icao24 </span></td>
+            <td><span th:text="${vuelo.estDepartureAirport}"> estDepartureAirport </span></td>
+            <td><span th:text="${vuelo.callsign}"> callsign </span></td>
+        </tr>
+    </tbody>
+</table>
+</html> 

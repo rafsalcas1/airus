@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="base.html">
+  <head>
+    <title>AirUs</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+<body>
+<h1 align="center" >State Vectors List</h1>
+<table>
+    <thead>
+        <tr>
+            <th> Time </th>
+        </tr>
+    </thead>
+    <tbody>
+        <div th:insert="fragments/base.html :: menu"></div>
+	<tr th:if="${states.empty}">
+            <td colspan="2"> No State Vectors </td>
+        </tr>
+        <tr th:each="state : ${states}">
+            <td><span th:text="${state.time}"> Time </span></td>
+            <td th:each="stateVector : ${state.stateVector}"><span th:text="${stateVector.icao24}"> Time </span></td>
+        </tr>
+    </tbody>
+</table>
+</html> 

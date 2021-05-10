@@ -9,5 +9,5 @@ public class AirusApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AirusApplication.class, args);
 	}
-
+	
 }

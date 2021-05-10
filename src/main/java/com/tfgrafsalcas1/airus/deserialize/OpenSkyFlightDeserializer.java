@@ -6,28 +6,28 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.tfgrafsalcas1.airus.documents.Flight;
-import com.tfgrafsalcas1.airus.documents.Flights;
+import com.tfgrafsalcas1.airus.documents.Vuelo;
+import com.tfgrafsalcas1.airus.documents.Vuelos;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class OpenSkyFlightDeserializer extends StdDeserializer<Flights> {
+public class OpenSkyFlightDeserializer extends StdDeserializer<Vuelos> {
 	
 	public OpenSkyFlightDeserializer() {
-		super(Flights.class);
+		super(Vuelos.class);
 	}
 
-	private Collection<Flight> deserializeFlights(JsonParser jp) throws IOException {
-		ArrayList<Flight> result = new ArrayList<>();
+	private Collection<Vuelo> deserializeFlights(JsonParser jp) throws IOException {
+		ArrayList<Vuelo> result = new ArrayList<>();
 
 		for (JsonToken next = jp.nextToken(); next != null && next != JsonToken.END_ARRAY; next = jp.nextToken()) {
 			if (next == JsonToken.END_ARRAY) {
 				break;
 			}
 
-			Flight sv = new Flight();
+			Vuelo sv = new Vuelo();
 			System.out.println(jp.currentName());
 			sv.setIcao24(jp.nextTextValue());
 			System.out.println(sv.getIcao24());
@@ -53,10 +53,7 @@ public class OpenSkyFlightDeserializer extends StdDeserializer<Flights> {
 			sv.setDepartureAirportCandidatesCount((jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null));
 			jp.nextToken();
 			sv.setArrivalAirportCandidatesCount((jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null));
-
-			//consume END_OBJECT
 			jp.nextToken();
-			//next "START_OBJECT"
 			jp.nextToken();
 
 			result.add(sv);
@@ -66,22 +63,20 @@ public class OpenSkyFlightDeserializer extends StdDeserializer<Flights> {
 	}
 
 	@Override
-    public Flights deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
+    public Vuelos deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
 		System.out.println("b");
 		System.out.println(jp.getCurrentToken());
 		if (jp.getCurrentToken() != null && jp.getCurrentToken() != JsonToken.START_ARRAY) {
-			throw dc.mappingException(Flights.class);
+			throw dc.mappingException(Vuelos.class);
 		}
-		System.out.println("3");
 		try {
-			Flights res = new Flights();
-			System.out.println("3");
+			Vuelos res = new Vuelos();
 			for (jp.nextToken(); jp.getCurrentToken() != null && jp.getCurrentToken() != JsonToken.END_ARRAY; jp.nextToken()) {
 				res.setFlights(deserializeFlights(jp));
 			}
 			return res;
 		} catch (JsonParseException jpe) {
-			throw dc.mappingException(Flights.class);
+			throw dc.mappingException(Vuelos.class);
 		}
 	}
 

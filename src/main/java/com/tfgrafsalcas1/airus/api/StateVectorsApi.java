@@ -15,12 +15,12 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class StateVectorsApi {
 	private static final String HOST = "opensky-network.org";
 	private static final String API_ROOT = "https://" + HOST + "/api";
 	private static final String STATES_URI = API_ROOT + "/states/all";
-	private static final String MY_STATES_URI = API_ROOT + "/states/own";
 
 	private enum REQUEST_TYPE {
 		GET_STATES,
@@ -69,7 +69,7 @@ public class StateVectorsApi {
 		authenticated = username != null && password != null;
 
 		if (authenticated) {
-			okHttpClient = new OkHttpClient.Builder()
+			okHttpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS)
 					.addInterceptor(new BasicAuthInterceptor(username, password))
 					.build();
 		} else {
@@ -179,36 +179,5 @@ public class StateVectorsApi {
 		nvps.add(new AbstractMap.SimpleImmutableEntry<>("lomin", Double.toString(bbox.getMinLongitude())));
 		nvps.add(new AbstractMap.SimpleImmutableEntry<>("lomax", Double.toString(bbox.getMaxLongitude())));
 		return checkRateLimit(REQUEST_TYPE.GET_STATES, 4900, 9900) ? getOpenSkyStates(STATES_URI, nvps) : null;
-	}
-
-	/**
-	 * Retrieve state vectors for your own sensors. Authentication is required for this operation.
-	 * If time = 0 the most recent ones are taken. Optional filters may be applied for ICAO24 addresses and sensor
-	 * serial numbers.
-	 *
-	 * @param time Unix time stamp (seconds since epoch).
-	 * @param icao24  retrieve only state vectors for the given ICAO24 addresses. If {@code null}, no filter will be applied on the ICAO24 address.
-	 * @param serials retrieve only states of vehicles as seen by the given sensors. It expects an array of sensor serial numbers which belong to the given account. If {@code null}, no filter will be applied on the sensor.
-	 * @return {@link StateVectors} if request was successful, {@code null} otherwise or if there's no new data/rate limit reached
-	 * @throws IOException if there was an HTTP error
-	 */
-	public StateVectors getMyStates(int time, String[] icao24, Integer[] serials) throws IOException {
-		if (!authenticated) {
-			throw new IllegalAccessError("Anonymous access of 'myStates' not allowed");
-		}
-
-		ArrayList<AbstractMap.Entry<String,String>> nvps = new ArrayList<>();
-		if (icao24 != null) {
-			for (String i : icao24) {
-				nvps.add(new AbstractMap.SimpleImmutableEntry<>("icao24", i));
-			}
-		}
-		if (serials != null) {
-			for (Integer s : serials) {
-				nvps.add(new AbstractMap.SimpleImmutableEntry<>("serials", Integer.toString(s)));
-			}
-		}
-		nvps.add(new AbstractMap.SimpleImmutableEntry<>("time", Integer.toString(time)));
-		return checkRateLimit(REQUEST_TYPE.GET_MY_STATES, 900, 0) ? getOpenSkyStates(MY_STATES_URI, nvps) : null;
 	}
 }
