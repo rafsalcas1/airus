@@ -38,6 +38,7 @@ public class OpenSkyRastroDeserializer extends StdDeserializer<Rastro> {
 			wp.setBaroAltitude((jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null));
 			wp.setTrueTrack((jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null));
 			wp.setOnGround(jp.nextBooleanValue());
+			jp.nextToken();
 
 			result.add(wp);
 		}
