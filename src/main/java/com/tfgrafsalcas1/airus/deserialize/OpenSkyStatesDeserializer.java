@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.tfgrafsalcas1.airus.documents.Avion;
 import com.tfgrafsalcas1.airus.documents.StateVector;
 import com.tfgrafsalcas1.airus.documents.StateVectors;
 
@@ -33,8 +34,8 @@ public class OpenSkyStatesDeserializer extends StdDeserializer<StateVectors> {
 			if ("null".equals(icao24)) {
 				throw new JsonParseException("Got 'null' icao24", jp.getCurrentLocation());
 			}
-
-			StateVector sv = new StateVector(icao24);
+			Avion a = new Avion(icao24);
+			StateVector sv = new StateVector(a);
 			sv.setCallsign(jp.nextTextValue());
 			sv.setOriginCountry(jp.nextTextValue());
 			sv.setTimePosition((jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null));

@@ -9,10 +9,10 @@ public class Vuelo {
     
     @Id
     private String id;
-    private String icao24;
-    private Double firstSeen;
+    private Avion avion;
+    private Integer firstSeen;
     private String estDepartureAirport;
-    private Double lastSeen;
+    private Integer lastSeen;
     private String estArrivalAirport;
     private String callsign;
     private Double estDepartureAirportHorizDistance;
@@ -30,19 +30,19 @@ public class Vuelo {
         this.id = id;
     }
 
-    public String getIcao24() {
-        return icao24;
+    public Avion getAvion() {
+        return avion;
     }
 
-    public void setIcao24(String icao24) {
-        this.icao24 = icao24;
+    public void setAvion(Avion avion) {
+        this.avion = avion;
     }
 
-    public Double getFirstSeen() {
+    public Integer getFirstSeen() {
         return firstSeen;
     }
 
-    public void setFirstSeen(Double firstSeen) {
+    public void setFirstSeen(Integer firstSeen) {
         this.firstSeen = firstSeen;
     }
 
@@ -54,11 +54,11 @@ public class Vuelo {
         this.estDepartureAirport = estDepartureAirport;
     }
 
-    public Double getLastSeen() {
+    public Integer getLastSeen() {
         return lastSeen;
     }
 
-    public void setLastSeen(Double lastSeen) {
+    public void setLastSeen(Integer lastSeen) {
         this.lastSeen = lastSeen;
     }
 
@@ -132,6 +132,7 @@ public class Vuelo {
         int result = 1;
         result = prime * result
                 + ((arrivalAirportCandidatesCount == null) ? 0 : arrivalAirportCandidatesCount.hashCode());
+        result = prime * result + ((avion == null) ? 0 : avion.hashCode());
         result = prime * result + ((callsign == null) ? 0 : callsign.hashCode());
         result = prime * result
                 + ((departureAirportCandidatesCount == null) ? 0 : departureAirportCandidatesCount.hashCode());
@@ -146,7 +147,7 @@ public class Vuelo {
         result = prime * result
                 + ((estDepartureAirportVertDistance == null) ? 0 : estDepartureAirportVertDistance.hashCode());
         result = prime * result + ((firstSeen == null) ? 0 : firstSeen.hashCode());
-        result = prime * result + ((icao24 == null) ? 0 : icao24.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((lastSeen == null) ? 0 : lastSeen.hashCode());
         return result;
     }
@@ -164,6 +165,11 @@ public class Vuelo {
             if (other.arrivalAirportCandidatesCount != null)
                 return false;
         } else if (!arrivalAirportCandidatesCount.equals(other.arrivalAirportCandidatesCount))
+            return false;
+        if (avion == null) {
+            if (other.avion != null)
+                return false;
+        } else if (!avion.equals(other.avion))
             return false;
         if (callsign == null) {
             if (other.callsign != null)
@@ -210,10 +216,10 @@ public class Vuelo {
                 return false;
         } else if (!firstSeen.equals(other.firstSeen))
             return false;
-        if (icao24 == null) {
-            if (other.icao24 != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!icao24.equals(other.icao24))
+        } else if (!id.equals(other.id))
             return false;
         if (lastSeen == null) {
             if (other.lastSeen != null)
@@ -223,16 +229,6 @@ public class Vuelo {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "FlightsAircraft [arrivalAirportCandidatesCount=" + arrivalAirportCandidatesCount + ", callsign="
-                + callsign + ", departureAirportCandidatesCount=" + departureAirportCandidatesCount
-                + ", estArrivalAirport=" + estArrivalAirport + ", estArrivalAirportHorizDistance="
-                + estArrivalAirportHorizDistance + ", estArrivalAirportVertDistance=" + estArrivalAirportVertDistance
-                + ", estDepartureAirport=" + estDepartureAirport + ", estDepartureAirportHorizDistance="
-                + estDepartureAirportHorizDistance + ", estDepartureAirportVertDistance="
-                + estDepartureAirportVertDistance + ", firstSeen=" + firstSeen + ", icao24=" + icao24 + ", lastSeen="
-                + lastSeen + "]";
-    }
+    
     
 }    

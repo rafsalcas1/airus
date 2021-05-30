@@ -1,11 +1,12 @@
 package com.tfgrafsalcas1.airus.services;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
+import com.tfgrafsalcas1.airus.documents.Avion;
 import com.tfgrafsalcas1.airus.documents.Vuelo;
-import com.tfgrafsalcas1.airus.documents.Vuelos;
 import com.tfgrafsalcas1.airus.repositories.VueloRepository;
-import com.tfgrafsalcas1.airus.repositories.VuelosRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class VueloService {
     
 	private static VueloRepository flightRepository;
-	private static VuelosRepository flightsRepository;
 
 	@Autowired
 	public VueloService(VueloRepository flightRepository) {
@@ -28,9 +28,19 @@ public class VueloService {
 		flightRepository.save(flight);
 	}
 
-	public List<Vuelo> vuelosUsuario(String nombre) {
-		//Vuelos vuelos = flightsRepository.findAll().stream().filter(x->x.getUsuario().equals(nombre));
-		return null;
+	public Collection<Vuelo> listVuelos() {
+		Collection<Vuelo> vuelos = flightRepository.findAll();
+		return vuelos;
+	}
+	
+	public List<Vuelo> getVuelosAvion(Avion avion) {
+		List<Vuelo> vuelos = flightRepository.findAllByAvion(avion);
+		return vuelos;
+	}	
+	
+	public Optional<Vuelo> getVuelo(String id) {
+		Optional<Vuelo> vuelo = flightRepository.findById(id);
+		return vuelo;
 	}
     
 }

@@ -10,7 +10,6 @@ public class Vuelos {
     
     @Id
     private String id;
-    private Perfil perfil;
     private Collection<Vuelo> flights;
 
     public String getId() {
@@ -19,14 +18,6 @@ public class Vuelos {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Perfil getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
     }
 
     public Collection<Vuelo> getFlights() {

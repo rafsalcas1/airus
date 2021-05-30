@@ -6,11 +6,20 @@ import org.springframework.context.annotation.Description;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+    
+    @Bean
+    public SpringResourceTemplateResolver templatecssResolver() {
+        var templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setPrefix("static/");
+        templateResolver.setSuffix(".css");
+        return templateResolver;
+    }
 
     @Bean
     @Description("Thymeleaf template resolver serving HTML 5")

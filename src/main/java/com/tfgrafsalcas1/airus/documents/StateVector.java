@@ -11,7 +11,7 @@ public class StateVector {
 
     @Id
     private String id;
-    private String icao24;
+    private Avion avion;
     private String callsign;
     private String originCountry;
     private Double timePosition;
@@ -30,18 +30,18 @@ public class StateVector {
     
     private Set<Integer> sensors;
 
-    public StateVector(String icao24) {
-		if (icao24 == null) throw new RuntimeException("Invalid icao24. Must not be null");
-		this.icao24 = icao24;
+    public StateVector(Avion avion) {
+		if (avion == null) throw new RuntimeException("Invalid icao24. Must not be null");
+		this.avion = avion;
 		this.sensors = null;
 	}
 
-    public String getIcao24() {
-        return icao24;
+    public Avion getAvion() {
+        return avion;
     }
 
-    public void setIcao24(String icao24) {
-        this.icao24 = icao24;
+    public void setAvion(Avion avion) {
+        this.avion = avion;
     }
 
     public String getCallsign() {
@@ -175,24 +175,25 @@ public class StateVector {
         return sensors;
     }
 
-    @Override
+	@Override
     public String toString() {
-        return "StateVector [baroAltitude=" + baroAltitude + ", callsign=" + callsign + ", geoAltitude=" + geoAltitude
-                + ", icao24=" + icao24 + ", lastContact=" + lastContact + ", latitude=" + latitude + ", longitude="
-                + longitude + ", onGround=" + onGround + ", originCountry=" + originCountry + ", positionSource="
-                + positionSource + ", sensors=" + sensors + ", spi=" + spi + ", squawk=" + squawk + ", timePosition="
-                + timePosition + ", trueTrack=" + trueTrack + ", velocity=" + velocity + ", verticalRate="
-                + verticalRate + "]";
+        return "StateVector [avion=" + avion + ", baroAltitude=" + baroAltitude + ", callsign=" + callsign
+                + ", geoAltitude=" + geoAltitude + ", id=" + id + ", lastContact=" + lastContact + ", latitude="
+                + latitude + ", longitude=" + longitude + ", onGround=" + onGround + ", originCountry=" + originCountry
+                + ", positionSource=" + positionSource + ", sensors=" + sensors + ", spi=" + spi + ", squawk=" + squawk
+                + ", timePosition=" + timePosition + ", trueTrack=" + trueTrack + ", velocity=" + velocity
+                + ", verticalRate=" + verticalRate + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((avion == null) ? 0 : avion.hashCode());
         result = prime * result + ((baroAltitude == null) ? 0 : baroAltitude.hashCode());
         result = prime * result + ((callsign == null) ? 0 : callsign.hashCode());
         result = prime * result + ((geoAltitude == null) ? 0 : geoAltitude.hashCode());
-        result = prime * result + ((icao24 == null) ? 0 : icao24.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((lastContact == null) ? 0 : lastContact.hashCode());
         result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
         result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
@@ -218,6 +219,11 @@ public class StateVector {
         if (getClass() != obj.getClass())
             return false;
         StateVector other = (StateVector) obj;
+        if (avion == null) {
+            if (other.avion != null)
+                return false;
+        } else if (!avion.equals(other.avion))
+            return false;
         if (baroAltitude == null) {
             if (other.baroAltitude != null)
                 return false;
@@ -233,10 +239,10 @@ public class StateVector {
                 return false;
         } else if (!geoAltitude.equals(other.geoAltitude))
             return false;
-        if (icao24 == null) {
-            if (other.icao24 != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!icao24.equals(other.icao24))
+        } else if (!id.equals(other.id))
             return false;
         if (lastContact == null) {
             if (other.lastContact != null)
@@ -260,10 +266,7 @@ public class StateVector {
                 return false;
         } else if (!originCountry.equals(other.originCountry))
             return false;
-        if (positionSource == null) {
-            if (other.positionSource != null)
-                return false;
-        } else if (!positionSource.equals(other.positionSource))
+        if (positionSource != other.positionSource)
             return false;
         if (sensors == null) {
             if (other.sensors != null)
@@ -300,7 +303,9 @@ public class StateVector {
         return true;
     }
 
-	public enum PositionSource {
+
+
+    public enum PositionSource {
 		ADS_B,
 		ASTERIX,
 		MLAT,
