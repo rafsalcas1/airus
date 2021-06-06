@@ -20,7 +20,7 @@ public class StateVectorService {
 
 	@Transactional
 	public void saveStateVector(StateVector stateVector) throws DataAccessException {
-		stateVectorRepository.save(stateVector);
+		stateVectorRepository.insert(stateVector);
 	}
     
 }

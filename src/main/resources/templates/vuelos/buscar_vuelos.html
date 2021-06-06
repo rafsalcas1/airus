@@ -21,7 +21,6 @@ https://templatemo.com/tm-536-dream-pulse
   <body>
     <main class="container-fluid">
       <nav th:insert="fragments/menu.html :: menu"></nav>
-    <main class="ml-sm-auto col-12">
       <div class="tm-section-wrap bg-white">
         <div class="tm-section-title">
             <nav th:insert="fragments/menu_vuelo.html :: menu_vuelo"></nav>
@@ -30,11 +29,12 @@ https://templatemo.com/tm-536-dream-pulse
       <div class="tm-section-wrap bg-white">
         <section class="row tm-section">
           <div class="col-12 tm-section-pad">
-            <h2>Introduce intervalo de fechas</h2><br>
+            <h2>Introduce intervalo temporal</h2><br>
+            <p th:if="${mensaje != null}" th:text="${mensaje}" class="text-danger">mensaje</p>
               <form action="buscar" method="POST">
                   <div class="input-group rounded">
-                    <input type="number" class="form-control rounded" placeholder="yyyy/MM/dd hh:mm:ss" id="begin" name="begin" required/>
-                    <input type="number" class="form-control rounded" placeholder="yyyy/MM/dd hh:mm:ss" id="end" name="end" required/>
+                    <input type="datetime-local" class="form-control rounded" id="begin" name="begin" required/>
+                    <input type="datetime-local" class="form-control rounded" id="end" name="end" required/>
                     <button class="input-group-text border-0" id="search-addon">
                       <i class="fas fa-search"></i>
                     </button>
@@ -55,6 +55,7 @@ https://templatemo.com/tm-536-dream-pulse
                     <th scope="col">Callsign</th>
                     <th scope="col">Aeropuerto de salida</th>
                     <th scope="col">Aeropuerto de llegada</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -63,6 +64,23 @@ https://templatemo.com/tm-536-dream-pulse
                     <td><span th:text="${vuelo.callsign}"> callsign </span></td>
                     <td><span th:text="${vuelo.estDepartureAirport}"> estDepartureAirport </span></td>
                     <td><span th:text="${vuelo.estArrivalAirport}"> estArrivalAirport </span></td>
+                    <td>
+                      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <form action="vuelos/mostrar" method="GET">
+                            <input class="form-control rounded" id="id" name="id" th:value="${vuelo.id}" hidden/>
+                            <button class="btn btn-secondary">
+                              Mostrar
+                            </button>
+                        </form>
+                        <form action="vuelos/rastro" method="GET">
+                            <input type="text" class="form-control rounded" id="icao24" name="icao24" th:value="${vuelo.avion.icao24}" hidden/>
+                            <input type="datetime" class="form-control rounded" id="firstSeen" name="firstSeen" th:value="${vuelo.firstSeen}" hidden/>
+                            <button class="btn btn-secondary">
+                              Rastro
+                            </button>
+                        </form>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
                 </table>

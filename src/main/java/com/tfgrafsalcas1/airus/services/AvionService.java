@@ -17,7 +17,7 @@ public class AvionService {
 	}
 	
 	public void saveAvion(Avion avion) {
-		avionRepository.save(avion);
+		avionRepository.insert(avion);
 	}
 	
 	public Avion getAvion(String icao24) {

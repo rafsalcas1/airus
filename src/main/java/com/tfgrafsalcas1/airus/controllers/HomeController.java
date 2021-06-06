@@ -12,5 +12,10 @@ public class HomeController {
 	public String inicio(final Map<String, Object> model) {
 		return "/inicio";
 	}
+
+	@GetMapping("/map")
+	public String map(final Map<String, Object> model) {
+		return "/map";
+	}
 	
 }

@@ -10,5 +10,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface RastroRepository  extends MongoRepository<Rastro, String> {
 
     List<Rastro> getAllByAvion(Avion avion);
+    Rastro getById(String id);
     
 }

@@ -30,10 +30,10 @@ https://templatemo.com/tm-536-dream-pulse
           <section class="row tm-section">
             <div class="col-12 tm-section-pad">
               <h2>Intervalo de fechas</h2><br>
-                <form action="stateVectors" method="POST">
+                <form action="stateVectors" method="GET">
                     <div class="input-group rounded">
-                      <input type="datetime" class="form-control rounded" placeholder="yyyy/MM/dd hh:mm:ss" id="begin" name="begin" required/>
-                      <input type="datetime" class="form-control rounded" placeholder="yyyy/MM/dd hh:mm:ss" id="end" name="end" required/>
+                      <input type="datetime-local" class="form-control rounded" id="begin" name="begin" required/>
+                      <input type="datetime-local" class="form-control rounded" id="end" name="end" required/>
                       <button class="input-group-text border-0" id="search-addon">
                         <i class="fas fa-search"></i>
                       </button>
@@ -57,11 +57,11 @@ https://templatemo.com/tm-536-dream-pulse
                   <td><span th:text="${state.time}"> time </span></td>
                   <td>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <form action="lista" method="POST">
-                          <input type="text" class="form-control rounded" id="state_vectors" name="state_vectors" hidden/>
-                          <button class="btn btn-secondary">
-                            Mostrar
-                          </button>
+                      <form action="stateVectors/mostrar" method="GET">
+                        <input type="datetime" class="form-control rounded" id="time" name="time" th:value="${state.time}" hidden/>
+                        <button class="btn btn-secondary">
+                          Mostrar
+                        </button>
                       </form>
                     </div>
                   </td>

@@ -1,7 +1,7 @@
 package com.tfgrafsalcas1.airus.services;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 
 import com.tfgrafsalcas1.airus.documents.StateVectors;
 import com.tfgrafsalcas1.airus.repositories.StateVectorsRepository;
@@ -23,12 +23,22 @@ public class StateVectorsService {
 
 	@Transactional
 	public void saveStateVectors(StateVectors stateVectors) throws DataAccessException {
-		stateVectorsRepository.save(stateVectors);
+		stateVectorsRepository.insert(stateVectors);
 	}
 
 	@Transactional
 	public Collection<StateVectors> listStateVectors() throws DataAccessException {
 		return stateVectorsRepository.findAll();
+	}
+
+	@Transactional
+	public StateVectors getStateVectorsTime(Date t) throws DataAccessException {
+		return stateVectorsRepository.findByTime(t);
+	}
+
+	@Transactional
+	public StateVectors getStateVectorsDirecto() throws DataAccessException {
+		return stateVectorsRepository.findAll().stream().findFirst().get();
 	}
     
 }

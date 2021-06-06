@@ -62,13 +62,13 @@ public class RastroApi {
 		mapper.registerModule(sm);
 
 		authenticated = username != null && password != null;
-
+		
         if (authenticated) {
-            okHttpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS)
+            okHttpClient = new OkHttpClient.Builder().connectTimeout(120, TimeUnit.SECONDS).readTimeout(120, TimeUnit.SECONDS)
 			.addInterceptor(new BasicAuthInterceptor(username, password))
 			.build();
         } else {
-            okHttpClient = new OkHttpClient();
+            okHttpClient = new OkHttpClient.Builder().connectTimeout(120, TimeUnit.SECONDS).readTimeout(120, TimeUnit.SECONDS).build();
         }
 	}
 

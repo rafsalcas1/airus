@@ -26,20 +26,27 @@ https://templatemo.com/tm-536-dream-pulse
               <nav th:insert="fragments/menu_vuelo.html :: menu_vuelo"></nav>
           </div>            
         </div>
-        <div class="tm-section-wrap bg-white">
+        <div th:if="${vuelo != null}" class="tm-section-wrap bg-white">
           <section class="row tm-section">
             <div class="col-12 tm-section-pad">
-              <h2 th:text="${vuelo.avion.icao24}">vuelo.avion.icao24</h2>
-            </div>                             
+              <label>Avión: </label>
+              <p th:text="${vuelo.avion.icao24}"> icao24 </p>
+              <label>Callsign: </label>
+              <p th:text="${vuelo.callsign}"> callsign </p>
+              <label>Aeropuerto de salida: </label>
+              <p th:text="${vuelo.estDepartureAirport}"> estDepartureAirport </p>
+              <label>Aeropuerto de llegada: </label>
+              <p th:text="${vuelo.estArrivalAirport}"> estArrivalAirport </p>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <form action="/vuelos/rastro" method="GET">
+                    <input type="text" class="form-control rounded" id="icao24" name="icao24" th:value="${vuelo.avion.icao24}" hidden/>
+                    <input type="datetime" class="form-control rounded" id="firstSeen" name="firstSeen" th:value="${vuelo.firstSeen}" hidden/>
+                    <button class="btn btn-secondary">
+                      Rastro
+                    </button>
+                </form>
+              </div>                      
           </section>
-        </div>
-        <div class="tm-section-wrap bg-white">
-          <section class="row tm-section">
-            <div class="col-12 tm-section-pad">
-                hola mundo
-            </div>                             
-          </section>
-        </div>
     </main>        
       
     

@@ -3,7 +3,7 @@ package com.tfgrafsalcas1.airus.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.tfgrafsalcas1.airus.deserialize.OpenSkyVueloDeserializer;
-import com.tfgrafsalcas1.airus.documents.Vuelos;
+import com.tfgrafsalcas1.airus.documents.Vuelo;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import okhttp3.*;
@@ -59,7 +59,7 @@ public class VueloApi {
 		// set up JSON mapper
 		mapper = new ObjectMapper();
 		SimpleModule sm = new SimpleModule();
-		sm.addDeserializer(Vuelos.class, new OpenSkyVueloDeserializer());
+		sm.addDeserializer(List.class, new OpenSkyVueloDeserializer());
 		mapper.registerModule(sm);
 
 		authenticated = username != null && password != null;
@@ -69,7 +69,7 @@ public class VueloApi {
 			.addInterceptor(new BasicAuthInterceptor(username, password))
 			.build();
         } else {
-            okHttpClient = new OkHttpClient();
+            okHttpClient = new OkHttpClient.Builder().connectTimeout(120, TimeUnit.SECONDS).readTimeout(120, TimeUnit.SECONDS).build();
         }
 	}
 
@@ -79,7 +79,7 @@ public class VueloApi {
 	 * @return parsed states
 	 * @throws IOException if there was an HTTP error
 	 */
-    private Vuelos getResponse(String baseUri) throws IOException {
+    private List<Vuelo> getResponse(String baseUri) throws IOException {
         HttpUrl parsedUrl = HttpUrl.parse(baseUri);
         if (parsedUrl == null) {
 			throw new MalformedURLException("Could not parse uri " + baseUri);
@@ -103,7 +103,7 @@ public class VueloApi {
 			}
         }
         if (charset != null) {
-            return mapper.readValue(new InputStreamReader(response.body().byteStream(), charset), Vuelos.class);
+            return mapper.readValue(new InputStreamReader(response.body().byteStream(), charset), List.class);
         } else {
             throw new IOException("Could not read charset in response. Content-Type is " + contentType);
         }
@@ -113,7 +113,7 @@ public class VueloApi {
 	 * Get states from server and handle errors
 	 * @throws IOException if there was an HTTP error
 	 */
-	private Vuelos getOpenSkyFlights(String baseUri) throws IOException {
+	private List<Vuelo> getOpenSkyFlights(String baseUri) throws IOException {
 		System.out.println(baseUri);
 		try {
 			return getResponse(baseUri);
@@ -138,7 +138,7 @@ public class VueloApi {
 	 * @throws IOException if there was an HTTP error
 	 * https://USERNAME:PASSWORD@opensky-network.org/api
 	 */
-	public Vuelos getFlights(int begin, int end) throws IOException {
+	public List<Vuelo> getFlights(int begin, int end) throws IOException {
 		return getOpenSkyFlights(API_ROOT + "/flights/all?begin=" + begin + "&end=" + end);
 	}
 }

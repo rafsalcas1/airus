@@ -1,5 +1,6 @@
 package com.tfgrafsalcas1.airus.services;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tfgrafsalcas1.airus.documents.Avion;
@@ -23,11 +24,26 @@ public class RastroService {
 
 	@Transactional
 	public void saveRastro(Rastro rastro) throws DataAccessException {
-		rastroRepository.save(rastro);
+		rastroRepository.insert(rastro);
 	}
 
 	public List<Rastro> getRastroAvion(Avion avion) {
 		List<Rastro> rastros = rastroRepository.getAllByAvion(avion);
 		return rastros;
 	}
+
+	public Rastro getRastro(String id) {
+		Rastro rastro = rastroRepository.getById(id);
+		return rastro;
+	}
+
+    public Rastro existeRastro(String icao24, Date t) {
+		try{
+			Rastro rastro = rastroRepository.findAll().stream().filter(x->x.getAvion().getIcao24().equals(icao24)).filter(x->x.getStarTime().equals(t)).findFirst().get();
+			return rastro;
+		}catch(Exception e) {
+			Rastro rastro = null;
+			return rastro;
+		}
+    }
 }

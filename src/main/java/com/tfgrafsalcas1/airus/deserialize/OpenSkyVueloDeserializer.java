@@ -8,16 +8,18 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.tfgrafsalcas1.airus.documents.Avion;
 import com.tfgrafsalcas1.airus.documents.Vuelo;
-import com.tfgrafsalcas1.airus.documents.Vuelos;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
-public class OpenSkyVueloDeserializer extends StdDeserializer<Vuelos> {
+public class OpenSkyVueloDeserializer extends StdDeserializer<List<Vuelo>> {
 	
 	public OpenSkyVueloDeserializer() {
-		super(Vuelos.class);
+		super(List.class);
 	}
 
 	private Collection<Vuelo> deserializeFlights(JsonParser jp) throws IOException {
@@ -29,16 +31,18 @@ public class OpenSkyVueloDeserializer extends StdDeserializer<Vuelos> {
 			}
 
 			Vuelo sv = new Vuelo();
-			System.out.println(jp.currentName());
 			Avion a = new Avion(jp.nextTextValue());
 			sv.setAvion(a);
-			System.out.println(sv.getAvion().getIcao24());
 			jp.nextToken();
-			sv.setFirstSeen((jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null).intValue());
+			double t1 = (jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null);
+			Date firstSeen = new Date((long)(t1)*1000);
+			sv.setFirstSeen(firstSeen);
 			jp.nextToken();
 			sv.setEstDepartureAirport(jp.nextTextValue());
 			jp.nextToken();
-			sv.setLastSeen((jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null).intValue());
+			double t2 = (jp.nextToken() != null && jp.getCurrentToken() != JsonToken.VALUE_NULL ? jp.getDoubleValue() : null);
+			Date lastSeen = new Date((long)(t2)*1000);
+			sv.setLastSeen(lastSeen);
 			jp.nextToken();
 			sv.setEstArrivalAirport(jp.nextTextValue());
 			jp.nextToken();
@@ -65,19 +69,19 @@ public class OpenSkyVueloDeserializer extends StdDeserializer<Vuelos> {
 	}
 
 	@Override
-    public Vuelos deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
+    public List<Vuelo> deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
 		System.out.println(jp.getCurrentToken());
 		if (jp.getCurrentToken() != null && jp.getCurrentToken() != JsonToken.START_ARRAY) {
-			throw dc.mappingException(Vuelos.class);
+			throw dc.mappingException(List.class);
 		}
 		try {
-			Vuelos res = new Vuelos();
+			List<Vuelo> res = new LinkedList();
 			for (jp.nextToken(); jp.getCurrentToken() != null && jp.getCurrentToken() != JsonToken.END_ARRAY; jp.nextToken()) {
-				res.setFlights(deserializeFlights(jp));
+				res.addAll(deserializeFlights(jp));
 			}
 			return res;
 		} catch (JsonParseException jpe) {
-			throw dc.mappingException(Vuelos.class);
+			throw dc.mappingException(List.class);
 		}
 	}
 

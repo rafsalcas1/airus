@@ -1,8 +1,11 @@
 package com.tfgrafsalcas1.airus.controllers;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import com.tfgrafsalcas1.airus.api.RastroApi;
 import com.tfgrafsalcas1.airus.documents.Rastro;
@@ -15,12 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RastroController {
 
-	private static final String VIEWS_SAVE_RASTRO = "rastro/rastros";
+	private static final String VIEWS_MOSTRAR_RASTRO = "rastro/mostrar_rastros";
 	private static final String VIEWS_PATH = "rastro/path";
 	private static final String ERROR = "error";
 
@@ -36,35 +38,43 @@ public class RastroController {
 	}
 
 	@GetMapping(value = "/vuelos/rastro")
-	public static String rastroVuelo(Model model, String icao24, Integer lastSeen) throws IOException {
+	public static String rastroVuelo(Model model, String icao24, String firstSeen) throws IOException, ParseException {
 		try{
-			Rastro rastro = new RastroApi().getRastro(lastSeen, icao24);
-			if(avionService.getAvion(rastro.getAvion().getIcao24())==null){
-				avionService.saveAvion(rastro.getAvion());
-				rastroService.saveRastro(rastro);
-				for(WayPoint wayPoint : rastro.getPath()){
-					wayPointService.saveWayPoint(wayPoint);
-				}
-			}else{
-				boolean b = false;
-				for(Rastro r : rastroService.getRastroAvion(rastro.getAvion())){
-					if(r.equals(rastro)){
-						if(!(rastro.getPath().equals(r.getPath()))){
-							r.setPath(rastro.getPath());
-						}
-						b = true;
-						break;
-					}
-				}
-				if(!b){
+			DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ROOT);
+			Date t = dateFormat.parse(firstSeen);
+			Integer l = (int) (t.getTime() / 1000);
+			Long now = new Date().getTime();
+			Rastro existe = rastroService.existeRastro(icao24, t);
+			if(!(((now - l) / 1000)>2505600)){
+				Rastro rastro = new RastroApi().getRastro(l/1000, icao24);
+				if(avionService.getAvion(rastro.getAvion().getIcao24())==null){
+					avionService.saveAvion(rastro.getAvion());
 					rastroService.saveRastro(rastro);
 					for(WayPoint wayPoint : rastro.getPath()){
 						wayPointService.saveWayPoint(wayPoint);
 					}
+				}else{
+					if(existe!=null){
+						if(!(rastro.getPath().equals(existe.getPath()))){
+							existe.setPath(rastro.getPath());
+						}
+					}else {
+						rastroService.saveRastro(rastro);
+						for(WayPoint wayPoint : rastro.getPath()){
+							wayPointService.saveWayPoint(wayPoint);
+						}
+					}
 				}
+				model.addAttribute("rastro", rastro);
+				return VIEWS_MOSTRAR_RASTRO;
+			}else if(existe!=null){
+				model.addAttribute("rastro", existe);
+				return VIEWS_MOSTRAR_RASTRO;
+			}else{
+				model.addAttribute("mensaje", "El vuelo es anterior a treinta días y no está guardado en la base de datos.");
+				return VIEWS_MOSTRAR_RASTRO;
 			}
-			model.addAttribute("rastro", rastro);
-			return VIEWS_SAVE_RASTRO;
+			
 		}
 		catch(Exception e) {
 			model.addAttribute("mensaje", e.getMessage());
@@ -72,10 +82,12 @@ public class RastroController {
 		}	
 	}
 
-	@PostMapping(value = "/vuelos/rastro/path")
-	public static String listVuelos(Model model, WayPoint path) throws IOException {
+	@GetMapping(value = "/vuelos/rastro/path")
+	public static String pathRastro(Model model, String rastro_id) throws IOException {
 		try{
-			System.out.println(path);
+			System.out.println(rastro_id);
+			Rastro rastro = rastroService.getRastro(rastro_id);
+			model.addAttribute("wayPoints", rastro.getPath());
 			return VIEWS_PATH;
 		}
 		catch(Exception e) {

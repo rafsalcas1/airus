@@ -1,5 +1,7 @@
 package com.tfgrafsalcas1.airus.documents;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,9 +12,9 @@ public class Vuelo {
     @Id
     private String id;
     private Avion avion;
-    private Integer firstSeen;
+    private Date firstSeen;
     private String estDepartureAirport;
-    private Integer lastSeen;
+    private Date lastSeen;
     private String estArrivalAirport;
     private String callsign;
     private Double estDepartureAirportHorizDistance;
@@ -38,11 +40,11 @@ public class Vuelo {
         this.avion = avion;
     }
 
-    public Integer getFirstSeen() {
+    public Date getFirstSeen() {
         return firstSeen;
     }
 
-    public void setFirstSeen(Integer firstSeen) {
+    public void setFirstSeen(Date firstSeen) {
         this.firstSeen = firstSeen;
     }
 
@@ -54,11 +56,11 @@ public class Vuelo {
         this.estDepartureAirport = estDepartureAirport;
     }
 
-    public Integer getLastSeen() {
+    public Date getLastSeen() {
         return lastSeen;
     }
 
-    public void setLastSeen(Integer lastSeen) {
+    public void setLastSeen(Date lastSeen) {
         this.lastSeen = lastSeen;
     }
 

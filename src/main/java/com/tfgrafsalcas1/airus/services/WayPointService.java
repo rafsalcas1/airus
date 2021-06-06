@@ -20,7 +20,7 @@ public class WayPointService {
 
 	@Transactional
 	public void saveWayPoint(WayPoint wayPoint) throws DataAccessException {
-		wayPointRepository.save(wayPoint);
+		wayPointRepository.insert(wayPoint);
 	}
     
 }

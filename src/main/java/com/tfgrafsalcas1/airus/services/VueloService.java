@@ -25,7 +25,7 @@ public class VueloService {
 
 	@Transactional
 	public void saveFlight(Vuelo flight) throws DataAccessException {
-		flightRepository.save(flight);
+		flightRepository.insert(flight);
 	}
 
 	public Collection<Vuelo> listVuelos() {
@@ -38,8 +38,8 @@ public class VueloService {
 		return vuelos;
 	}	
 	
-	public Optional<Vuelo> getVuelo(String id) {
-		Optional<Vuelo> vuelo = flightRepository.findById(id);
+	public Vuelo getVuelo(String id) {
+		Vuelo vuelo = flightRepository.getById(id);
 		return vuelo;
 	}
     

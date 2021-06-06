@@ -23,8 +23,19 @@ https://templatemo.com/tm-536-dream-pulse
         <nav th:insert="fragments/menu.html :: menu"></nav>
         <div class="tm-section-wrap bg-white">
           <div class="tm-section-title">
-              <nav th:insert="fragments/menu_rastro.html :: menu_rastro"></nav>
+              <nav th:insert="fragments/menu_vuelo.html :: menu_vuelo"></nav>
           </div>            
+        </div>
+        <div th:if="${mensaje != null}" class="tm-section-wrap bg-white">
+          <section class="row tm-section">
+            <div class="col-12 tm-section-pad">
+              <p th:text="${mensaje}" class="text-danger">mensaje</p>
+              <br>
+              <a class="btn btn-secondary" href="/vuelos">
+                Volver lista de vuelos
+              </a>
+            </div>
+          </section>  
         </div>
         <div th:if="${rastro != null}" class="tm-section-wrap bg-white">
           <section class="row tm-section">
@@ -47,8 +58,8 @@ https://templatemo.com/tm-536-dream-pulse
                       <td><span th:text="${rastro.callsign}"> callsign </span></td>
                       <td>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                          <form action="rastro/path" method="POST">
-                              <input class="form-control rounded" id="path" name="path" th:value="${rastro.path}" hidden/>
+                          <form action="rastro/path" method="GET">
+                              <input type="text" id="rastro_id" name="rastro_id" th:value="${rastro.id}" hidden/>
                               <button class="btn btn-secondary">
                                 Path
                               </button>
@@ -59,7 +70,7 @@ https://templatemo.com/tm-536-dream-pulse
                   </tbody>
                   </table>
                 </p>
-            </div>                             
+            </div>                         
           </section>
           </div>
       </main>        
