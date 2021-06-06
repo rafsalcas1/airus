@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>AirUs</title>
+<!--
+DREAM PULSE
+https://templatemo.com/tm-536-dream-pulse
+-->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
+    <link rel="stylesheet" type="text/css" href="css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="css/templatemo-dream-pulse.css" />
+  </head>
+  <body>
+    <main class="container-fluid">
+      <div class="row">        
+        <nav th:insert="fragments/menu.html :: menu"></nav>   
+          <main role="main" class="ml-sm-auto col-12">
+            <div
+              class="parallax-window"
+              data-parallax="scroll"
+              data-image-src="images/avion_portada.jpg">
+              <div class="tm-section-wrap">
+                <section class="tm-section">
+                    <div class="tm-bg-white-transparent tm-intro">
+                        <h2 class="tm-section-title mb-5 text-uppercase tm-color-primary">AirUs</h2>
+                        <p class="tm-color-gray">
+                          AirUs está destinado al estudio del tráfico aéreo por medio 
+                          de información geolística de aviones en directo por medio de la 
+                          Api Rest de OpenSky.
+                        </p>
+                        <p class="mb-0 tm-color-gray">
+                          AirUs te permitirá hacer el estudio de distintos aspéctos del 
+                          tráfico aéreo.
+                        </p>
+                    </div>              
+                </section>
+            </div>            
+          </div>
+
+          <div class="tm-section-wrap bg-white">
+            <section class="row tm-section">
+              <div class="col-xl-6">
+                <div class="tm-section-half">                       
+                    <h2 class="tm-section-title tm-color-primary mb-5">Vuelos</h2>
+                    <p class="mb-5">
+                      Vuelos.
+                    </p>
+                </div>
+              </div>
+              <div class="col-xl-6">
+                <div class="tm-section-half">
+                    <h2 class="tm-section-title tm-color-primary mb-5">State Vectors</h2>
+                    <p class="mb-5">
+                      State vectors
+                    </p>
+                </div>
+              </div>  
+            </section>
+          </div>
+            
+          <div class="tm-section-wrap bg-white">
+            <section class="row tm-section">
+              <div class="col-12 tm-section-pad">
+                  <div class="tm-flex-item-left">
+                      <div class="tm-w-80">
+                          <h2 class="tm-color-primary tm-section-title mb-4">Herramientas</h2>
+                          <p class="mb-5">
+                            Para el desarrollo de este Trabajo se ha hecho uso de MongoDB como base 
+                            de datos para almacenar toda la información, Spring como framework para 
+                            el backend y Bootstrap para frontend.
+                          </p>
+                      </div>
+                      
+                      <div class="row tm-clients-images">
+                        <div class="col-xl-3 col-lg-6 col-md-4 col-sm-6 tm-img-wrap">
+                          <a href="https://www.mongodb.com/">
+                            <img src="images/mongodb-logo.png" alt="MongoDB" class="img-fluid tm-client-img" />
+                          </a>                          
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-4 col-sm-6 tm-img-wrap">
+                          <a href="https://spring.io/">
+                            <img src="images/spring-logo.png" alt="Spring" class="img-fluid tm-client-img" />
+                          </a>                          
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-4 col-sm-6 tm-img-wrap">
+                          <a href="https://getbootstrap.com/">
+                            <img src="images/bootstrap-logo.png" alt="Bootstrap" class="img-fluid tm-client-img" />
+                          </a>                          
+                        </div>
+                      </div>
+                  </div> 
+              </div>                             
+            </section>
+          </div>
+
+          <div class="tm-section-wrap bg-white">
+            <section class="row tm-section">
+              <div class="col-xl-6">
+                <div class="tm-section-half">    
+                    <div><i class="fas fa-6x fa-plane mb-5 tm-section-icon"></i></div>                        
+                    <h2 class="tm-section-title tm-color-primary mb-5">About Us</h2>
+                    <p class="mb-5">
+                      AirUs es un trabajo de fin de grado realizado por Rafael Salas Castizo, 
+                      estudiante de ingeniería informática de software en la Universidad de 
+                      Sevilla, donde se busca el alamacenamiento, consulta y tratamiento de 
+                      información geologística de aviones para poder obtener nuevos estudios 
+                      e información acerca del tráfico aéreo.
+                    </p>
+                    
+                    <p>
+                      Todo esto mediante la supervisión de una tutora, Mª Teresa Gómez López, 
+                      del departamento de Lenguajes y Sistemas Informáticos de la Universidad 
+                      de Sevilla.
+                    </p>
+                </div>
+              </div>
+              <div class="col-xl-6">
+                <div class="tm-section-half">
+                    <div><i class="fas fa-6x fa-globe mb-5 tm-section-icon"></i></div>
+                    <h2 class="tm-section-title tm-color-primary mb-5">Api Rest</h2>
+                    <p class="mb-5">
+                      Para el desarrollo de este trabajo se ha hecho uso de la Api Rest de 
+                      OpenSky, con la cuál he podido realizar consultas para almacenar la 
+                      información geologística de aviones en directo y poder implementar 
+                      diversas funcionalidades que aporten información acerca del tráfico 
+                      aéreo.
+                    </p>
+                    <p>
+                      <img src="images/opensky.png" alt="opensky" class="img-fluid">
+                    </p>
+                </div>
+              </div>
+            </section>
+          </div>
+            
+          <div class="tm-section-wrap bg-white">
+            <section class="row tm-section">
+                <div class="col-xl-6 mb-5">
+                  <div class="tm-double-border-1 tm-border-gray">
+                    <div class="tm-double-border-2 tm-border-gray tm-box-pad">
+                        <h2 class="tm-color-primary tm-section-title mb-4">Contacto</h2>
+                        <p class="mb-4">
+                          Para contactar conmingo hágalo haciendo uso de este correo: rafasalas27@gmail.com.
+                        </p>
+                    </div>                    
+                  </div>                  
+                </div>
+                <div class="col-xl-4">
+                  <img src="images/logo.png" alt="opensky" class="img-fluid">
+                </div>
+              </section>
+          </div>
+        </main>        
+      </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.singlePageNav.min.js"></script>
+    <script src="js/parallax.min.js"></script>
+    <script src="slick/slick.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/templatemo-scripts.js"></script>
+  </body>
+</html>
